@@ -29,7 +29,13 @@ describe('pathEq', function() {
 
   it('accepts empty path', function() {
     assert.strictEqual(R.pathEq([], 42, {a: 1, b: 2}), false);
-    assert.strictEqual(R.pathEq([], undefined, {a: 1, b: 2}), true);
+    assert.strictEqual(R.pathEq([], obj, obj), true);
+  });
+
+  it('has Object.is semantics', function() {
+    assert.strictEqual(R.pathEq(['value'], -0, {value: 0}), false);
+    assert.strictEqual(R.propEq(['value'], 0, {value: -0}), false);
+    assert.strictEqual(R.propEq(['value'], NaN, {value: NaN}), true);
   });
 
 });
